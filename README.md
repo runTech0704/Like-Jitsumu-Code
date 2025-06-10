@@ -53,7 +53,8 @@ gcloud run deploy like-jitsumu-code-service \
   --image asia-northeast1-docker.pkg.dev/like-jitsumu-code/like-jitsumu-code-repo/like_jitsumu_code:latest \
   --platform managed \
   --region asia-northeast1 \
-  --allow-unauthenticated
+  --allow-unauthenticated \
+  --set-secrets="DATABASE_URL=DATABASE_URL:latest"
 ```
 
 ## 開発方針

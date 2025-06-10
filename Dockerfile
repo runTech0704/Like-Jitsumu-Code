@@ -11,17 +11,11 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY . /app
 
+# エントリポイントスクリプトに実行権限を付与
+RUN chmod +x /app/entrypoint.sh
+
 ENV PORT=8080
 ENV DJANGO_SETTINGS_MODULE=myproject.settings
 
-RUN python manage.py collectstatic --noinput
-RUN python manage.py migrate
-
-RUN python manage.py shell <<EOF
-from django.contrib.auth import get_user_model
-User = get_user_model()
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@admin.com', 'adminpass')
-EOF
-
-CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:${PORT:-8080}"]
+# エントリポイントスクリプトを実行
+CMD ["/app/entrypoint.sh"]
